@@ -50,7 +50,7 @@ xpra start $DISPLAY --no-daemon $XPRA_OPTIONS --start-child="$CMD"
 
 For example, applying `XPRA_OPTIONS="--bind-tcp=0.0.0.0:14500"` means Xpra clients can connect to the server via the insecure TCP port 14500.
 
-Otherwise, users can specify the Xpra option `--exit-with-children` in `XPRA_OPTIONS` to enable automatically terminating while the X application terminates, 
+Otherwise, users can specify the Xpra option `--exit-with-children` in `XPRA_OPTIONS` to enable automatically terminating while the X application terminates.
 
 For detailed usage of Xpra options, you may reference <http://xpra.org/manual.html>.
 
@@ -59,21 +59,20 @@ For detailed usage of Xpra options, you may reference <http://xpra.org/manual.ht
 
 In some scenarios, we would like to specify the application's effective UID/GID, especially when working with Docker volumes.  For example, an IDE program works with user's development project sources, and the whole bunch of source files may be preferred to be located on the host file system, by binding host directories with container volumes.  Since the files on the host file system have their own UID/GID which should not be altered inside the container, we need to specify the effective UID/GID of the running X application (a.k.a. IDE programs) to assign the right permission to access the cooperative files.
 
-We let the determination of the effective UID/GID of an X application being lately bound on the Docker container creating phase (not on the image building phase) to provide more flexibility for users.  While creating a Docker container, applying environment variables `GUEST_USER`, `GUEST_GROUP`, `GUEST_UID`, `GUEST_GID` are used for specifying user/group names and effective UID/GID of the Xpra server and the X application.
+We let the determination of the effective UID/GID of an X application being lately bound on the Docker container creating phase (not on the image building phase) to provide more flexibility for users.  While creating a Docker container, applying environment variables `GUEST_USER`, `GUEST_GROUP`, `GUEST_UID`, `GUEST_GID` for specifying user/group names and effective UID/GID of the Xpra server and X applications.
 
 When starting a container, it also creates the corresponding home directory of `GUEST_USER`.  The home directory is specified by the environment variable `GUEST_HOME`, with default value `"/home/$GUEST_USER"`.  Thus, the X application knows the information of which user runs it and its home directory, similar to ones run on a normal physical/virtual machine.
 
 
 #### Container startup execution sequence
 
-Despite of regular Docker command running as specified `GUEST_UID`/`GUEST_GID`, sometimes we wish to do extra operations with root permission.  When building user's own `Dokerfile`, two scripts `/docker/pre_xpra` and `/docker/post_xpra` are used for this purpose.  `/docker/pre_xpra` is executed before starting the Xpra server, and `/docker/post_xpra` is executed after starting the Xpra server.
+Despite of regular Docker command running as specified `GUEST_UID`/`GUEST_GID`, sometimes we wish to do extra operations with root permission.  When building user's own `Dokerfile`, the script `/docker/preexecAsRoot` is used for this purpose.  Before starting the Xpra server, `/docker/preexecAsRoot` is executed with root permission for initializing necessarities, such as other cooperative daemons.
 
-The execution steps of starting a container are listed as following:
+Briefly, when a container start, the following sequence would be executed:
 
-1. Run `/docker/pre_xpra`
-2. Start the Xpra server by executing `xpra start ${DISPLAY} ${XPRA_OPTIONS}`
-3. Run `/docker/post_xpra`
-4. Run the command specified by the `CMD` instruction in `Dockerfile`
+1. `/docker/preexecAsRoot` with effective UID/GID as 0/0
+2. Starts the Xpra server with `GUEST_UID`/`GUEST_GID`
+3. Runs the specified X application with `GUEST_UID`/`GUEST_GID`
 
 
 #### Default values of environment variables
