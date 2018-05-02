@@ -23,7 +23,7 @@ else
     done
 fi
 
-rm -f /tmp/.X100-lock
+rm -f /tmp/.X0-lock
 
 /docker/preexecAsRoot
 

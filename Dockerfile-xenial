@@ -5,7 +5,7 @@ COPY keys/ /tmp/keys/
 RUN apt-key add /tmp/keys/xpra.org-20180504.asc && \
     echo "deb http://xpra.org/ xenial main" > /etc/apt/sources.list.d/xpra.list && \
     apt-get update && \
-    apt-get install -q -y gosu dbus-x11 libgtk2.0-0 libcanberra-gtk-module xpra=2.0-r15319-1 x11-apps xterm
+    apt-get install -q -y gosu dbus-x11 libgtk2.0-0 libcanberra-gtk-module xpra=2.0.2-r15657-1 x11-apps xterm
 
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
