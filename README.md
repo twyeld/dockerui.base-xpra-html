@@ -1,26 +1,45 @@
-# dockerui.base-xpra
+### updated for 2020 Ubuntu 19.04 (Disco Dingo) ###
+
+# dockerui.base-xpra-html
 
 Provides base docker images for X applications by using [Xpra](https://xpra.org/) as the X11 server.
 
 
-### Supported tags and respective `Dockerfile` links
+### Build docker image
 
-* [`2.0-hf1-jessie`, `2.0-jessie`, `latest-jessie` (Dockerfile-jessie)](https://github.com/mgtsai/dockerui.base-xpra/blob/v2.0-hf1/Dockerfile-jessie): Xpra version 2.0-r15315M-1 based on Debian Jessie
+Type the following command to build the image with name 'xpra-html-2020'. Edit the Dockerfile to your liking.
+```
+docker build -t xpra-html-2020 .
+```
 
-* [`2.0-hf1-xenial`, `2.0-xenial`, `latest-xenial` (Dockerfile-xenial)](https://github.com/mgtsai/dockerui.base-xpra/blob/v2.0-hf1/Dockerfile-xenial): Xpra version 2.0-r15319-1 based on Ubuntu Xenial (16.04)
 
-
-## A Got-a-feeling Example
+## Run the image in a container to start your server
 
 Type the following command:
 
 ```
-> docker run --rm --env XPRA_OPTIONS="--exit-with-children --bind-tcp=0.0.0.0:14500 --html=on" --publish 14500:14500 mgtsai/dockerui.base-xpra:latest-jessie sh -c "xclock & xterm"
+docker run -d -p 14500:14500 xpra-html-2020
 ```
 
-and then browse <http://yourhost:14500/>.  Oh yeah!  An `xclock` and an `xterm` are shown on the web browser.
+browse <http://yourhost:14500/>.  `xterm` is shown in  web browser.
 
-![Got-a-feeling example](demofiles/img/demo01.png)
+### Main Changes to original dockerfile ###
+
+1) from Ubuntu 16.04.6 LTS (Xenial Xerus) to Ubuntu 19.04 (Disco Dingo)
+2) use the latest public key from: http://xpra.org/gpg.asc
+3) from libgtk2.0-0 to libgtk-3-0
+4) from xpra=2.0.2-r15657-1 to xpra=3.0.5-r24939-1
+
+
+
+
+
+
+
+
+##########################################################################
+
+### Notes from original repo: mgtsai/dockerui.base-xpra ###
 
 
 ## Basic Concepts
