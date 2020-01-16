@@ -2,6 +2,10 @@
 
 # dockerui.base-xpra-html
 
+## based on https://github.com/mgtsai/dockerui.base-xpra
+## with help from Tyler Carlson
+
+
 Provides base docker images for X applications by using [Xpra](https://xpra.org/) as the X11 server.
 
 
