@@ -1,4 +1,4 @@
-### updated for 2020 Ubuntu 19.04 (Disco Dingo) ###
+### updated for 2020 xpra-html5
 
 # dockerui.base-xpra-html
 
@@ -29,10 +29,9 @@ browse <http://yourhost:14500/>.  `xterm` is shown in  web browser.
 
 ### Main Changes to original dockerfile ###
 
-1) from Ubuntu 16.04.6 LTS (Xenial Xerus) to Ubuntu 19.04 (Disco Dingo)
-2) use the latest public key from: http://xpra.org/gpg.asc
-3) from libgtk2.0-0 to libgtk-3-0
-4) from xpra=2.0.2-r15657-1 to xpra=3.0.5-r24939-1
+1) uses the latest public key from: http://xpra.org/gpg.asc
+2) from libgtk2.0-0 to libgtk-3-0
+3) from xpra=2.0.2-r15657-1 to xpra=3.0.5-r24939-1
 
 
 
