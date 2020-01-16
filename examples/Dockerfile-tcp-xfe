@@ -1,6 +1,0 @@
-# Runs xfe with Xpra TCP port 14500
-FROM mgtsai/dockerui.base-xpra:latest-jessie
-RUN apt-get update && apt-get install -q -y xfe
-ENV XPRA_OPTIONS="--exit-with-children --bind-tcp=0.0.0.0:14500"
-EXPOSE 14500
-CMD xfe
